@@ -52,14 +52,15 @@ for n_pools in range(n_down, n_up):
     bba_new_results[n_pools] = el_result
     print(n_pools)
 
-bba_results = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'Max', 'Time (s)'])
+bba_results = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'real length', 'Max', 'Time (s)'])
 for keyb in list(bba_new_time.keys()):
 
-    results19 = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'Max', 'Time (s)'])
+    results19 = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'real length', 'Max', 'Time (s)'])
     for key in list(bba_new_time[keyb].keys()):
         results19_inter = pd.DataFrame()
         times = bba_new_time[keyb][key]
         peptides = []
+        real_peptides = bba_new_results[keyb][key]
         max = []
         available = math.comb(keyb, key)
         for len_lst in range(60, 100):
@@ -68,6 +69,7 @@ for keyb in list(bba_new_time.keys()):
                 peptides.append(l)
                 max.append(available)
         results19_inter['# of peptides'] = peptides
+        esults19_inter['real length'] = real_peptides
         results19_inter['Max'] = max
         results19_inter['Time (s)'] = times
         results19_inter['N_pools'] = [keyb]*len(times)
