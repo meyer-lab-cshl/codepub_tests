@@ -29,10 +29,10 @@ for n_pools in range(n_down, n_up):
     for iters in range(iters_down, iters_up):
         el_time[iters] = []
         el_result[iters] = []
-        available = math.comb(n_pools, iters)
+        available = math.comb(n_pools, iters+1)
         for len_lst in tqdm.tqdm(range(60, 100), leave=False):
             l = available*len_lst//100
-            if available > l and l > 0:
+            if l > 1:
                 start = time.time()
                 signal.signal(signal.SIGALRM, timeout_handler)
                 signal.alarm(time_max)
@@ -62,10 +62,10 @@ for keyb in list(bba_new_time.keys()):
         peptides = []
         real_peptides = bba_new_results[keyb][key]
         max = []
-        available = math.comb(keyb, key)
+        available = math.comb(keyb, key+1)
         for len_lst in range(60, 100):
             l = available*len_lst//100
-            if available > l and l>0:
+            if l > 1:
                 peptides.append(l)
                 max.append(available)
         results19_inter['# of peptides'] = peptides
