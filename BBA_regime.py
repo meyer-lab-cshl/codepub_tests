@@ -69,7 +69,7 @@ for keyb in list(bba_new_time.keys()):
                 peptides.append(l)
                 max.append(available)
         results19_inter['# of peptides'] = peptides
-        esults19_inter['real length'] = real_peptides
+        results19_inter['real length'] = real_peptides
         results19_inter['Max'] = max
         results19_inter['Time (s)'] = times
         results19_inter['N_pools'] = [keyb]*len(times)

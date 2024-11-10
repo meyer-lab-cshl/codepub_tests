@@ -52,7 +52,6 @@ for n_pools in range(n_down, n_up):
     rca_new_results[n_pools] = el_result
     print(n_pools)
 
-
 rca_results = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'real length', 'Max', 'Time (s)'])
 for keyb in list(rca_new_time.keys()):
 
@@ -66,7 +65,7 @@ for keyb in list(rca_new_time.keys()):
         available = math.comb(keyb, key+1)
         for len_lst in range(60, 100):
             l = available*len_lst//100
-            if l>1:
+            if l > 1:
                 peptides.append(l)
                 max.append(available)
         results19_inter['# of peptides'] = peptides
