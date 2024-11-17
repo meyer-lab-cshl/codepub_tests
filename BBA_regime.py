@@ -15,9 +15,9 @@ def timeout_handler(signum, frame):
     raise TimeoutException()
 
 ## parameters
-n_down = 5
+n_down = 10
 n_up = 15
-iters_down = 3
+iters_down = 2
 iters_up = 13
 time_max = 400
 
@@ -29,10 +29,10 @@ for n_pools in range(n_down, n_up):
     for iters in range(iters_down, iters_up):
         el_time[iters] = []
         el_result[iters] = []
-        available = math.comb(n_pools, iters+1)
+        available = np.min([math.comb(n_pools, iters), math.comb(n_pools, iters+1)])
         for len_lst in tqdm.tqdm(range(60, 100), leave=False):
             l = available*len_lst//100
-            if l > 1:
+            if l > 3:
                 start = time.time()
                 signal.signal(signal.SIGALRM, timeout_handler)
                 signal.alarm(time_max)
@@ -61,20 +61,26 @@ for keyb in list(bba_new_time.keys()):
         times = bba_new_time[keyb][key]
         peptides = []
         real_peptides = bba_new_results[keyb][key]
-        max = []
-        available = math.comb(keyb, key+1)
+        maxi = []
+        available = np.min([math.comb(keyb, key), math.comb(keyb, key+1)])
         for len_lst in range(60, 100):
             l = available*len_lst//100
-            if l > 1:
+            if l > 3:
                 peptides.append(l)
-                max.append(available)
+                maxi.append(available)
         results19_inter['# of peptides'] = peptides
         results19_inter['real length'] = real_peptides
-        results19_inter['Max'] = max
+        results19_inter['Max'] = maxi
         results19_inter['Time (s)'] = times
         results19_inter['N_pools'] = [keyb]*len(times)
         results19_inter['Iters'] = [key]*len(times)
-        results19 = pd.concat([results19, results19_inter])
-    bba_results = pd.concat([bba_results, results19])
+        if results19.empty:
+            results19 = results19_inter
+        else:
+            results19 = pd.concat([results19, results19_inter])
+    if bba_results.empty:
+        bba_results = results19
+    else:
+        bba_results = pd.concat([bba_results, results19])
 
-bba_results.to_csv('BBA_lim_failures.tsv', sep = "\t", index = None)
+bba_results.to_csv('results/BBA_lim_failures.tsv', sep = "\t", index = None)
