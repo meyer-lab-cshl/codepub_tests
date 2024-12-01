@@ -37,7 +37,7 @@ for n_pools in range(n_down, n_up):
                 signal.signal(signal.SIGALRM, timeout_handler)
                 signal.alarm(time_max)
                 try:
-                    b, S = cdp.rcau(n_pools, iters, l)
+                    b, S = cdp.rcbba(n_pools, iters, l)
                 except TimeoutException:
                     S = []
                 finally:
