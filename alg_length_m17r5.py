@@ -21,12 +21,12 @@ bba_check = dict()
 bba_check_n = dict()
 
 available = math.comb(m, r)
-for perc in tqdm.tqdm(range(40, 100), leave=False):
+for perc in tqdm.tqdm(range(40, 100, 10), leave=False):
     n = available*perc//100
     if available > n and n > 0:
         start = time.time()
         signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(400)
+        signal.alarm(2000)
         try:
             b, S = cdp.bba(m, r, n)
         except TimeoutException:
@@ -45,18 +45,19 @@ bba_check_n = pd.DataFrame.from_dict(bba_check_n, orient = 'index', columns = ['
 
 bba_result = bba_check.merge(bba_check_n, left_index = True, right_index = True)
 bba_result.index.names = ['n']
+bba_result = bba_result.reset_index()
 bba_result.to_csv('results/BBA_length_m17r5.tsv', sep = "\t", index = None)
 
 rcbba_check = dict()
 rcbba_check_n = dict()
 
 available = math.comb(m, r)
-for perc in tqdm.tqdm(range(40, 100), leave=False):
+for perc in tqdm.tqdm(range(40, 100, 10), leave=False):
     n = available*perc//100
     if available > n and n > 0:
         start = time.time()
         signal.signal(signal.SIGALRM, timeout_handler)
-        signal.alarm(400)
+        signal.alarm(2000)
         try:
             b, S = cdp.rcbba(m, r, n)
         except TimeoutException:
@@ -75,4 +76,5 @@ rcbba_check_n = pd.DataFrame.from_dict(rcbba_check_n, orient = 'index', columns 
 
 rcbba_result = rcbba_check.merge(rcbba_check_n, left_index = True, right_index = True)
 rcbba_result.index.names = ['n']
+rcbba_result = rcbba_result.reset_index()
 rcbba_result.to_csv('results/rcBBA_length_m17r5.tsv', sep = "\t", index = None)
