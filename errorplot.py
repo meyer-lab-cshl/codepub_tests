@@ -29,7 +29,7 @@ for i in range(0, len(sequence), shift):
 for x in [15, 12, 9, 6, 3]:
     for i in tqdm.tqdm([100, 500, 1000], leave = True):
         lst = lst_all[:i]
-        b, lines = cdp.rcau(n_pools=n_pools, iters=iters, len_lst=i)
+        b, lines = cdp.rcbba(n_pools=n_pools, iters=iters, len_lst=i)
         pools, peptide_address = cpp.pooling(lst=lst, addresses=lines, n_pools=n_pools)
         check_results = cpp.run_experiment(lst=lst, peptide_address=peptide_address, ep_length=x,
                               pools=pools, iters=iters, n_pools=n_pools, regime='with dropouts')

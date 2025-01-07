@@ -22,7 +22,7 @@ for n in range(n_down, n_up):
     results_time = dict()
     for i in tqdm.tqdm(range(length_down, length_up, step)):
         start_time = time.time()
-        b, lines = cdp.rcau(n_pools=n, iters=iters, len_lst=i)
+        b, lines = cdp.rcbba(n_pools=n, iters=iters, len_lst=i)
         end_time = time.time()
         elapsed_time = end_time - start_time
         results_time[i] = elapsed_time
@@ -47,7 +47,7 @@ for iters in range(iters_down, iters_up):
     results_time = dict()
     for i in tqdm.tqdm(range(length_down, length_up, step)):
         start_time = time.time()
-        b, lines = cdp.rcau(n_pools=n_pools, iters=iters, len_lst=i)
+        b, lines = cdp.rcbba(n_pools=n_pools, iters=iters, len_lst=i)
         end_time = time.time()
         elapsed_time = end_time - start_time
         results_time[i] = elapsed_time
