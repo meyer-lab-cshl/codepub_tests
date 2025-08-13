@@ -37,7 +37,7 @@ for n_pools in range(n_down, n_up):
                 signal.signal(signal.SIGALRM, timeout_handler)
                 signal.alarm(time_max)
                 try:
-                    b, S = cdp.bba_au(n_pools, iters, l)
+                    b, S = cdp.bba(n_pools, iters, l)
                 except TimeoutException:
                     S = []
                 finally:
@@ -52,10 +52,10 @@ for n_pools in range(n_down, n_up):
     bba_new_results[n_pools] = el_result
     print(n_pools)
 
-bba_results = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'real length', 'Max', 'Time (s)'])
+bba_results = pd.DataFrame(columns = ['m', 'r', 'n', 'real_n', 'max_n', 'Time (s)'])
 for keyb in list(bba_new_time.keys()):
 
-    results19 = pd.DataFrame(columns = ['N_pools', 'Iters', '# of peptides', 'real length', 'Max', 'Time (s)'])
+    results19 = pd.DataFrame(columns = ['m', 'r', 'n', 'real_n', 'max_n', 'Time (s)'])
     for key in list(bba_new_time[keyb].keys()):
         results19_inter = pd.DataFrame()
         times = bba_new_time[keyb][key]
@@ -68,12 +68,12 @@ for keyb in list(bba_new_time.keys()):
             if l > 3:
                 peptides.append(l)
                 maxi.append(available)
-        results19_inter['# of peptides'] = peptides
-        results19_inter['real length'] = real_peptides
-        results19_inter['Max'] = maxi
+        results19_inter['n'] = peptides
+        results19_inter['real_n'] = real_peptides
+        results19_inter['max_n'] = maxi
         results19_inter['Time (s)'] = times
-        results19_inter['N_pools'] = [keyb]*len(times)
-        results19_inter['Iters'] = [key]*len(times)
+        results19_inter['m'] = [keyb]*len(times)
+        results19_inter['r'] = [key]*len(times)
         if results19.empty:
             results19 = results19_inter
         else:
@@ -83,4 +83,4 @@ for keyb in list(bba_new_time.keys()):
     else:
         bba_results = pd.concat([bba_results, results19])
 
-bba_results.to_csv('results/BBA_lim_failures.tsv', sep = "\t", index = None)
+bba_results.to_csv('results/bba_lim_failures.tsv', sep = "\t", index = None)

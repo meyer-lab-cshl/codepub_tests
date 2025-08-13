@@ -32,7 +32,7 @@ for n in range(n_down, n_up):
     results_time['m'] = n
     rca_results_time_fixI4  = pd.concat([rca_results_time_fixI4, results_time])
 
-rca_results_time_fixI4.to_csv('rca_running_time_fixI4.tsv',
+rca_results_time_fixI4.to_csv('rca_running_time_fixR4.tsv',
                                sep = "\t", index = None)
 
 ### fixed n_pools
@@ -57,5 +57,5 @@ for iters in range(iters_down, iters_up):
     results_time['r'] = iters
     rca_results_time_fixN20  = pd.concat([rca_results_time_fixN20, results_time])
 
-rca_results_time_fixN20.to_csv('rca_running_time_fixN20.tsv',
+rca_results_time_fixN20.to_csv('rca_running_time_fixM20.tsv',
                                sep = "\t", index = None)

@@ -24,7 +24,7 @@ for n in range(n_down, n_up):
     results_time = dict()
     for i in tqdm.tqdm(range(length_down, length_up, step)):
         start_time = time.time()
-        b, lines = cdp.bba_au(n_pools=n, iters=iters, len_lst=i)
+        b, lines = cdp.bba(m=n, r=iters, n=i)
         end_time = time.time()
         elapsed_time = end_time - start_time
         results_time[i] = elapsed_time
@@ -34,7 +34,7 @@ for n in range(n_down, n_up):
     results_time['m'] = n
     results_time_fixI4  = pd.concat([results_time_fixI4, results_time])
 
-results_time_fixI4.to_csv('bba_running_time_fixI4.tsv',
+results_time_fixI4.to_csv('bba_running_time_fixR4.tsv',
                                sep = "\t", index = None)
 
 ### fixed n_pools
@@ -49,7 +49,7 @@ for iters in range(iters_down, iters_up):
     results_time = dict()
     for i in tqdm.tqdm(range(length_down, length_up, step)):
         start_time = time.time()
-        b, lines = cdp.bba_au(n_pools=n_pools, iters=iters, len_lst=i)
+        b, lines = cdp.bba(m=n_pools, r=iters, n=i)
         end_time = time.time()
         elapsed_time = end_time - start_time
         results_time[i] = elapsed_time
@@ -59,5 +59,5 @@ for iters in range(iters_down, iters_up):
     results_time['r'] = iters
     results_time_fixN20  = pd.concat([results_time_fixN20, results_time])
 
-results_time_fixN20.to_csv('bba_running_time_fixN20.tsv',
+results_time_fixN20.to_csv('bba_running_time_fixM20.tsv',
                                sep = "\t", index = None)
